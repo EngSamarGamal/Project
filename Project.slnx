@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/docker-compose/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/Catalog/">
+    <Project Path="Catalog/Catalog.app/Catalog.app.csproj" Id="ddc10544-ec52-4588-8f9c-88a1b456ca73" />
+    <Project Path="D:/micro/MicroServiceProject/Project/Catalog/Catalog.api/Catalog.api.csproj" Id="69ef208b-9d5a-4828-b040-6b5cd934c538" />
+    <Project Path="D:/micro/MicroServiceProject/Project/Catalog/Catalog.core/Catalog.core.csproj" Id="ab7ea7d8-50b6-4d0c-929b-9c9424044c99" />
+    <Project Path="D:/micro/MicroServiceProject/Project/Catalog/Catalog.infrastructure/Catalog.infrastructure.csproj" Id="68f85b63-6449-431b-8426-8b2efd8a8c1d" />
+  </Folder>
+</Solution>
