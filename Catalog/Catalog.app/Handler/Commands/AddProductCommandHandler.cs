@@ -28,18 +28,7 @@ public async Task<bool> Handle(AddProductCommand request, CancellationToken canc
 {
 	var productEntity = _mapper.Map<Product>(request);
 
-	//if (request.Image != null && request.Image.Length > 0)
-	//{
-	//	var extension = Path.GetExtension(request.Image.FileName);
-	//	if (string.IsNullOrWhiteSpace(extension))
-	//		extension = ".jpg";
 
-	//	using var ms = new MemoryStream();
-	//	await request.Image.CopyToAsync(ms, cancellationToken);
-
-	//	var fileName = await _FileService.SaveFileAsync(ms.ToArray(), extension);
-	//	productEntity.ImageFile = fileName;
-	//}
 
 	var result = await _productRepository.CreateProduct(productEntity);
 	return result != null;

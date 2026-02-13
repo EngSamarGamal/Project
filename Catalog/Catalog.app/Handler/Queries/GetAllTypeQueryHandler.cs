@@ -17,11 +17,11 @@ namespace Catalog.application.Handler.Queries
 			_typesRepository = typesRepository;	
 		}
 
-		public Task<IEnumerable<TypeResponseDto>> Handle(GetAllTypesQuery request, CancellationToken cancellationToken)
+		public async Task<IEnumerable<TypeResponseDto>> Handle(GetAllTypesQuery request, CancellationToken cancellationToken)
 		{
-			var types =  _typesRepository.GetAllProductType();
+			var types = await _typesRepository.GetAllProductType();  // Add await here
 			var typeDtos = _Mapper.Map<IEnumerable<TypeResponseDto>>(types);
-			return Task.FromResult(typeDtos);	
+			return typeDtos;  // No need for Task.FromResult when using async/await
 		}
 	}
 }
