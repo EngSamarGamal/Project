@@ -1,5 +1,6 @@
 ﻿using Catalog.api.Controllers;
 using Catalog.application.Commands;
+using Catalog.application.Handler.Queries;
 using Catalog.application.Queries;
 using Catalog.application.Responses;
 using MediatR;
@@ -41,6 +42,23 @@ namespace Catalog.API.Controllers
 		public async Task<ActionResult<BrandResponseDto>> CreateProductBrand([FromBody] AddBrandCommand brandCommand)
 		{
 			var result = await _mediator.Send(brandCommand);
+			return Ok(result);
+		}
+		[HttpPost]
+		[Route("CreateProductType")]
+		[ProducesResponseType(typeof(TypeResponseDto), (int)HttpStatusCode.OK)]
+		public async Task<ActionResult<TypeResponseDto>> CreateProductType([FromBody] AddTypeCommand  addTypeCommand)
+		{
+			var result = await _mediator.Send(addTypeCommand);
+			return Ok(result);
+		}
+		[HttpGet]
+		[Route("GetAllProductType")]
+		[ProducesResponseType(typeof(IEnumerable<TypeResponseDto>), (int)HttpStatusCode.OK)]
+		public async Task<ActionResult<IEnumerable<TypeResponseDto>>> GetAllProductType()
+		{
+			var result = await _mediator.Send(new GetAllTypesQuery());
+
 			return Ok(result);
 		}
 		[HttpGet]

@@ -20,9 +20,63 @@ namespace Catalog.Infrastructure.Repositories
 
 		#region Products
 
+
 		public async Task<IEnumerable<Product>> GetAllProducts()
 		{
-			return await _context.Products.Find(p => true).ToListAsync();
+			// جيب الـ Products
+			var products = await _context.Products
+				.Find(Builders<Product>.Filter.Empty)
+				.ToListAsync();
+
+			if (!products.Any())
+				return products;  // ✅ لو مفيش products، ارجع فاضي
+
+			// ✅ جيب الـ IDs اللي محتاجها بس (مش كل الـ Brands والـ Types)
+			var brandIds = products
+				.Where(p => !string.IsNullOrEmpty(p.BrandId))
+				.Select(p => p.BrandId)
+				.Distinct()
+				.ToList();
+
+			var typeIds = products
+				.Where(p => !string.IsNullOrEmpty(p.TypeId))
+				.Select(p => p.TypeId)
+				.Distinct()
+				.ToList();
+
+			// ✅ جيب الـ Brands اللي محتاجها بس (مش كلهم!)
+			var brands = brandIds.Any()
+				? await _context.Brands
+					.Find(Builders<ProductBrand>.Filter.In(b => b.Id, brandIds))
+					.ToListAsync()
+				: new List<ProductBrand>();
+
+			// ✅ جيب الـ Types اللي محتاجها بس
+			var types = typeIds.Any()
+				? await _context.Types
+					.Find(Builders<ProductType>.Filter.In(t => t.Id, typeIds))
+					.ToListAsync()
+				: new List<ProductType>();
+
+			// ✅ استخدم Dictionary عشان الـ Lookup يبقى O(1) بدل O(n)
+			var brandDictionary = brands.ToDictionary(b => b.Id);
+			var typeDictionary = types.ToDictionary(t => t.Id);
+
+			// ربط الـ Products بالـ Brands والـ Types
+			foreach (var product in products)
+			{
+				if (!string.IsNullOrEmpty(product.BrandId) && brandDictionary.ContainsKey(product.BrandId))
+				{
+					product.Brand = brandDictionary[product.BrandId];
+				}
+
+				if (!string.IsNullOrEmpty(product.TypeId) && typeDictionary.ContainsKey(product.TypeId))
+				{
+					product.Type = typeDictionary[product.TypeId];
+				}
+			}
+
+			return products;
 		}
 
 		public async Task<Product> GetProductById(string id)

@@ -1,6 +1,4 @@
-﻿version: "3.9"
-
-services:
+﻿services:
   mongo:
     image: mongo:7
     container_name: catalog-mongo
@@ -24,6 +22,9 @@ services:
       DatabaseSettings__ProductsCollection: Products
       DatabaseSettings__BrandsCollection: Brands
       DatabaseSettings__TypesCollection: Types
+    volumes:
+      # Mount الكود عشان Hot Reload
+      - ./Catalog:/src/Catalog:ro
     depends_on:
       - mongo
 

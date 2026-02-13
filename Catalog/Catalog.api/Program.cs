@@ -57,7 +57,6 @@ builder.Services.AddApiVersioning(options =>
 
 var app = builder.Build();
 
-// ✅ خلي Swagger شغال دائمًا (على الأقل لحد ما نتأكد)
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
