@@ -9,4 +9,13 @@
     <Project Path="D:/micro/MicroServiceProject/Project/Catalog/Catalog.core/Catalog.core.csproj" Id="ab7ea7d8-50b6-4d0c-929b-9c9424044c99" />
     <Project Path="D:/micro/MicroServiceProject/Project/Catalog/Catalog.infrastructure/Catalog.infrastructure.csproj" Id="68f85b63-6449-431b-8426-8b2efd8a8c1d" />
   </Folder>
+  <Folder Name="/Services/Basket/">
+    <Project Path="Basket/Basket.core/Basket.core.csproj" Id="a1b2c3d4-e5f6-7890-abcd-ef1234567890" />
+    <Project Path="Basket/Basket.infrastructure/Basket.infrastructure.csproj" Id="b2c3d4e5-f6a7-8901-bcde-f12345678901" />
+    <Project Path="Basket/Basket.app/Basket.app.csproj" Id="c3d4e5f6-a7b8-9012-cdef-123456789012" />
+    <Project Path="Basket/Basket.api/Basket.api.csproj" Id="d4e5f6a7-b8c9-0123-defa-234567890123" />
+  </Folder>
+  <Folder Name="/Services/Discount/">
+    <Project Path="Dicount/Dicount.api/Dicount.api.csproj" Id="02482f0a-2f57-496a-afc9-5e33b4ffd99c" />
+  </Folder>
 </Solution>

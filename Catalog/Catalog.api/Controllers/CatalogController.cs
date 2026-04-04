@@ -1,4 +1,6 @@
-﻿using Catalog.api.Controllers;
+﻿using Catalog.a.FilesServices;
+using Catalog.api.Controllers;
+using Catalog.api.ViewModel;
 using Catalog.application.Commands;
 using Catalog.application.Handler.Queries;
 using Catalog.application.Queries;
@@ -13,7 +15,7 @@ namespace Catalog.API.Controllers
 	{
 		private readonly IMediator _mediator;
 
-		public CatalogController(IMediator mediator)
+		public CatalogController(IMediator mediator,IFileservice)
 		{
 			_mediator = mediator;
 		}
@@ -31,11 +33,46 @@ namespace Catalog.API.Controllers
 		[HttpPost]
 		[Route("CreateProduct")]
 		[ProducesResponseType(typeof(ProductResponseDto), (int)HttpStatusCode.OK)]
-		public async Task<ActionResult<ProductResponseDto>> CreateProduct([FromForm] AddProductCommand productCommand )
+		public async Task<IActionResult> CreateProduct([FromForm] CreateProductRequest request)
 		{
-			var result = await _mediator.Send(productCommand);
+			string imageFileName = null;
+
+			// حفظ الصورة
+			if (request.Image != null)
+			{
+				var uploadsFolder = Path.Combine("wwwroot", "images");
+				Directory.CreateDirectory(uploadsFolder);
+
+				imageFileName = $"{Guid.NewGuid()}_{request.Image.FileName}";
+				var filePath = Path.Combine(uploadsFolder, imageFileName);
+
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await request.Image.CopyToAsync(stream);
+				}
+			}
+
+			// إنشاء الـ Command
+			var command = new AddProductCommand
+			{
+				Name = request.Name,
+				Description = request.Description,
+				Summary = request.Summary,
+				ImageFile = imageFileName,
+				Price = request.Price,
+				BrandId = request.BrandId,
+				TypeId = request.TypeId
+			};
+
+			var result = await _mediator.Send(command);
 			return Ok(result);
 		}
+		
+		//public async Task<ActionResult<ProductResponseDto>> CreateProduct([FromForm] AddProductCommand productCommand )
+		//{
+		//	var result = await _mediator.Send(productCommand);
+		//	return Ok(result);
+		//}
 		[HttpPost]
 		[Route("CreateProductBrand")]
 		[ProducesResponseType(typeof(BrandResponseDto), (int)HttpStatusCode.OK)]

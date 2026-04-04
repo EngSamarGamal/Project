@@ -1,0 +1,6 @@
+@Dicount.api_HostAddress = http://localhost:5194
+
+GET {{Dicount.api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
