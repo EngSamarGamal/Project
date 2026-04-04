@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.application.Commands;
-using Catalog.application.FilesServices;
+//using Catalog.application.FilesServices;
 using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
 using MediatR;
@@ -10,16 +10,16 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, bool>
 {
 	private readonly IProductRepository _productRepository;
 	private readonly IMapper _mapper;
-	private readonly IFileService _FileService;
+	//private readonly IFileService _FileService;
 
 
 	public AddProductCommandHandler(
 		IMapper mapper,
-		IProductRepository productRepository, IFileService fileService)
+		IProductRepository productRepository/*, IFileService fileService*/)
 	{
 		_mapper = mapper;
 		_productRepository = productRepository;
-		_FileService = fileService;
+		//_FileService = fileService;
 	}
 
 

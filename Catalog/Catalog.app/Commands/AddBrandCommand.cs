@@ -9,7 +9,6 @@ namespace Catalog.application.Commands
 {
 	public class AddBrandCommand:IRequest<bool>
 	{
-		//هنا المعلومات التي نحتاجها لانشاء براند جديد	
 		public string Name { get; set; }
 
 	}
